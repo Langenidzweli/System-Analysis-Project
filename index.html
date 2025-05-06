@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Safari Wheels - South African Car Rental</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="container">
+      <div class="logo">
+        <h1>Safari<span>Wheels</span></h1>
+        <p class="tagline">Explore South Africa Your Way</p>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="#" class="active">Home</a></li>
+          <li><a href="#cars">Our Fleet</a></li>
+          <li><a href="#locations">Locations</a></li>
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="auth-buttons">
+        <a href="admin.html" class="btn btn-login">Admin Login</a>
+        <a href="#" class="btn btn-register">Register</a>
+      </div>
+      <div class="mobile-menu-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="hero-content">
+        <h2>Discover South Africa's Beauty on Wheels</h2>
+        <p>From the breathtaking Garden Route to the majestic Kruger National Park, explore South Africa with our reliable and affordable car rental service.</p>
+        
+        <div class="search-form">
+          <h3>Find Your Perfect Vehicle</h3>
+          <form action="#" method="get">
+            <div class="form-group">
+              <label for="pickup-location">Pickup Location</label>
+              <select id="pickup-location" name="pickup-location" required>
+                <option value="">Select location</option>
+                <option value="johannesburg">Johannesburg - O.R. Tambo Airport</option>
+                <option value="capetown">Cape Town International Airport</option>
+                <option value="durban">Durban - King Shaka Airport</option>
+                <option value="pretoria">Pretoria CBD</option>
+                <option value="nelspruit">Nelspruit - Kruger Mpumalanga</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label for="dropoff-location">Drop-off Location</label>
+              <select id="dropoff-location" name="dropoff-location" required>
+                <option value="">Select location</option>
+                <option value="johannesburg">Johannesburg - O.R. Tambo Airport</option>
+                <option value="capetown">Cape Town International Airport</option>
+                <option value="durban">Durban - King Shaka Airport</option>
+                <option value="pretoria">Pretoria CBD</option>
+                <option value="nelspruit">Nelspruit - Kruger Mpumalanga</option>
+                <option value="bloemfontein">Bloemfontein Airport</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label for="pickup-date">Pickup Date</label>
+              <input type="date" id="pickup-date" name="pickup-date" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="dropoff-date">Return Date</label>
+              <input type="date" id="dropoff-date" name="dropoff-date" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="car-type">Vehicle Type</label>
+              <select id="car-type" name="car-type">
+                <option value="">All Types</option>
+                <option value="economy">Economy</option>
+                <option value="compact">Compact</option>
+                <option value="midsize">Mid-size</option>
+                <option value="suv">SUV</option>
+                <option value="luxury">Luxury</option>
+                <option value="4x4">4x4/Safari</option>
+                <option value="van">Minivan</option>
+              </select>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Search Available Cars</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Feature Cars Section -->
+  <section id="cars" class="module-section">
+    <div class="container">
+      <h2 class="section-title">Our Featured Vehicles</h2>
+      <p class="section-description">Discover our range of vehicles perfect for your South African adventure</p>
+      
+      <div class="car-grid">
+        <div class="car-card">
+          <div class="car-image">
+            <img src="https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&q=80&w=1170" alt="Toyota Corolla">
+            <span class="status available">Available</span>
+            <span class="price">R650/day</span>
+          </div>
+          <div class="car-details">
+            <h3>Toyota Corolla</h3>
+            <p>Economy Sedan | 5 Seats | 2 Bags | Automatic</p>
+            <div class="car-features">
+              <span>Air Conditioning</span>
+              <span>Bluetooth</span>
+              <span>USB Port</span>
+            </div>
+            <a href="#" class="btn btn-secondary">Book Now</a>
+          </div>
+        </div>
+        
+        <div class="car-card">
+          <div class="car-image">
+            <img src="https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&q=80&w=1170" alt="Volkswagen Polo">
+            <span class="status available">Available</span>
+            <span class="price">R550/day</span>
+          </div>
+          <div class="car-details">
+            <h3>VW Polo</h3>
+            <p>Economy Hatch | 5 Seats | 1 Bag | Manual</p>
+            <div class="car-features">
+              <span>Air Conditioning</span>
+              <span>Radio/CD</span>
+              <span>Power Steering</span>
+            </div>
+            <a href="#" class="btn btn-secondary">Book Now</a>
+          </div>
+        </div>
+        
+        <div class="car-card">
+          <div class="car-image">
+            <img src="https://images.unsplash.com/photo-1511919884226-fd3cad34687c?auto=format&fit=crop&q=80&w=1170" alt="Land Rover Defender">
+            <span class="status rented">Limited</span>
+            <span class="price">R1,500/day</span>
+          </div>
+          <div class="car-details">
+            <h3>Land Rover Defender</h3>
+            <p>4x4 Safari | 7 Seats | 4 Bags | Manual</p>
+            <div class="car-features">
+              <span>4x4 Drive</span>
+              <span>Air Conditioning</span>
+              <span>Adventure Ready</span>
+            </div>
+            <a href="#" class="btn btn-secondary">Book Now</a>
+          </div>
+        </div>
+        
+        <div class="car-card">
+          <div class="car-image">
+            <img src="https://images.unsplash.com/photo-1570733577524-3a047079e80d?auto=format&fit=crop&q=80&w=1170" alt="Mercedes-Benz C-Class">
+            <span class="status available">Available</span>
+            <span class="price">R1,200/day</span>
+          </div>
+          <div class="car-details">
+            <h3>Mercedes-Benz C-Class</h3>
+            <p>Luxury Sedan | 5 Seats | 3 Bags | Automatic</p>
+            <div class="car-features">
+              <span>Leather Seats</span>
+              <span>GPS Navigation</span>
+              <span>Premium Sound</span>
+            </div>
+            <a href="#" class="btn btn-secondary">Book Now</a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="view-all-container">
+        <a href="#" class="btn btn-secondary">View All Vehicles</a>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Locations Section -->
+  <section id="locations" class="module-section">
+    <div class="container">
+      <h2 class="section-title">Our Locations</h2>
+      <p class="section-description">Pick up and drop off at convenient locations across South Africa</p>
+      
+      <div class="locations-grid">
+        <div class="location-card">
+          <img src="https://images.unsplash.com/photo-1577948000111-9c970dfe3743?auto=format&fit=crop&q=80&w=1026" alt="Johannesburg">
+          <h3>Johannesburg</h3>
+          <p>O.R. Tambo International Airport</p>
+          <p>Sandton City</p>
+        </div>
+        
+        <div class="location-card">
+          <img src="https://images.unsplash.com/photo-1580060839134-75a5edca2e99?auto=format&fit=crop&q=80&w=1074" alt="Cape Town">
+          <h3>Cape Town</h3>
+          <p>Cape Town International Airport</p>
+          <p>V&A Waterfront</p>
+        </div>
+        
+        <div class="location-card">
+          <img src="https://images.unsplash.com/photo-1552553302-9211bf7f7053?auto=format&fit=crop&q=80&w=1074" alt="Durban">
+          <h3>Durban</h3>
+          <p>King Shaka International Airport</p>
+          <p>Umhlanga Rocks</p>
+        </div>
+        
+        <div class="location-card">
+          <img src="https://images.unsplash.com/photo-1580822622782-0aa1d6567c1f?auto=format&fit=crop&q=80&w=1074" alt="Kruger National Park">
+          <h3>Kruger Park</h3>
+          <p>Kruger Mpumalanga Airport</p>
+          <p>Skukuza Airport</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Testimonials Section -->
+  <section id="testimonials" class="module-section">
+    <div class="container">
+      <h2 class="section-title">Customer Reviews</h2>
+      <p class="section-description">What our customers say about their rental experience</p>
+      
+      <div class="testimonials-grid">
+        <div class="testimonial-card">
+          <div class="testimonial-content">
+            <p>"Safari Wheels made our family vacation unforgettable! The Land Rover was perfect for our Kruger safari trip. Amazing service!"</p>
+          </div>
+          <div class="testimonial-author">
+            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="John Smith">
+            <div>
+              <h4>John Smith</h4>
+              <p>Cape Town</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="testimonial-card">
+          <div class="testimonial-content">
+            <p>"Booking was easy and the car was delivered right to our hotel in Johannesburg. Great fuel economy too!"</p>
+          </div>
+          <div class="testimonial-author">
+            <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Sarah Johnson">
+            <div>
+              <h4>Sarah Johnson</h4>
+              <p>London, UK</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="testimonial-card">
+          <div class="testimonial-content">
+            <p>"The 4x4 we rented was in excellent condition and perfect for the Garden Route. The staff were very helpful with route suggestions."</p>
+          </div>
+          <div class="testimonial-author">
+            <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="David Mabaso">
+            <div>
+              <h4>David Mabaso</h4>
+              <p>Pretoria</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="module-section">
+    <div class="container">
+      <div class="about-content">
+        <div class="about-image">
+          <img src="https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&q=80&w=1170" alt="About Safari Wheels">
+        </div>
+        <div class="about-text">
+          <h2>About Safari Wheels</h2>
+          <p>Safari Wheels is South Africa's premier car rental service, specializing in providing reliable vehicles for both tourists and locals. We take pride in our diverse fleet that caters to all your travel needs, from city exploration to wildlife safaris.</p>
+          <p>Founded in 2010, we've grown to offer service at all major airports and cities throughout South Africa. Our mission is to make your journey as smooth and enjoyable as possible.</p>
+          <h3>Why Choose Us?</h3>
+          <ul>
+            <li>Competitive rates with no hidden fees</li>
+            <li>Modern, well-maintained vehicles</li>
+            <li>24/7 roadside assistance</li>
+            <li>Flexible pickup and drop-off locations</li>
+            <li>Special rates for long-term rentals</li>
+            <li>Dedicated customer service</li>
+          </ul>
+          <a href="#" class="btn btn-secondary">Learn More About Us</a>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Contact Section -->
+  <section id="contact" class="module-section">
+    <div class="container">
+      <h2 class="section-title">Contact Us</h2>
+      <p class="section-description">Have questions or need assistance? Reach out to our friendly team</p>
+      
+      <div class="contact-container">
+        <div class="contact-form">
+          <h3>Send us a Message</h3>
+          <form action="#" method="post">
+            <div class="form-group">
+              <label for="name">Your Name</label>
+              <input type="text" id="name" name="name" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="email">Email Address</label>
+              <input type="email" id="email" name="email" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="phone">Phone Number</label>
+              <input type="tel" id="phone" name="phone">
+            </div>
+            
+            <div class="form-group full-width">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" rows="5" required></textarea>
+            </div>
+            
+            <button type="submit" class="btn btn-secondary">Send Message</button>
+          </form>
+        </div>
+        
+        <div class="contact-info">
+          <h3>Our Information</h3>
+          <div class="info-item">
+            <span class="info-label">Main Office:</span>
+            <span class="info-value">123 Baobab Street, Sandton, Johannesburg</span>
+          </div>
+          
+          <div class="info-item">
+            <span class="info-label">Phone:</span>
+            <span class="info-value">+27 11 234 5678</span>
+          </div>
+          
+          <div class="info-item">
+            <span class="info-label">Email:</span>
+            <span class="info-value">info@safariwheels.co.za</span>
+          </div>
+          
+          <div class="info-item">
+            <span class="info-label">Business Hours:</span>
+            <span class="info-value">Mon-Fri: 7am-7pm, Sat: 8am-5pm, Sun: 9am-3pm</span>
+          </div>
+          
+          <div class="social-links">
+            <a href="#" class="social-link">Facebook</a>
+            <a href="#" class="social-link">Twitter</a>
+            <a href="#" class="social-link">Instagram</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-section">
+          <h3>Safari<span>Wheels</span></h3>
+          <p>Your trusted partner for exploring South Africa with comfortable, reliable vehicles at competitive prices.</p>
+        </div>
+        
+        <div class="footer-section">
+          <h3>Quick Links</h3>
+          <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#cars">Our Fleet</a></li>
+            <li><a href="#locations">Locations</a></li>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-section">
+          <h3>Our Services</h3>
+          <ul>
+            <li><a href="#">Airport Pickups</a></li>
+            <li><a href="#">Long-term Rentals</a></li>
+            <li><a href="#">Safari Vehicles</a></li>
+            <li><a href="#">Corporate Accounts</a></li>
+            <li><a href="#">Chauffeur Services</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-section">
+          <h3>Stay Connected</h3>
+          <div class="social-icons">
+            <a href="#" class="social-icon facebook">Facebook</a>
+            <a href="#" class="social-icon twitter">Twitter</a>
+            <a href="#" class="social-icon instagram">Instagram</a>
+            <a href="#" class="social-icon linkedin">LinkedIn</a>
+          </div>
+          <p>Subscribe to our newsletter for special offers</p>
+          <form class="newsletter-form">
+            <input type="email" placeholder="Your Email Address">
+            <button type="submit" class="btn btn-primary">Subscribe</button>
+          </form>
+        </div>
+      </div>
+      
+      <div class="copyright">
+        <p>&copy; 2025 Safari Wheels. All rights reserved. Terms of Service | Privacy Policy</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

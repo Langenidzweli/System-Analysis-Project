@@ -1,0 +1,1526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Safari Wheels Admin - Car Rental Management</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    /* Admin-specific styles */
+    .admin-container {
+      display: flex;
+      min-height: 100vh;
+    }
+    
+    .admin-sidebar {
+      width: 250px;
+      background-color: var(--secondary-color);
+      color: white;
+      padding: 20px;
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 0;
+    }
+    
+    .admin-content {
+      flex: 1;
+      margin-left: 250px;
+      padding: 20px;
+    }
+    
+    .admin-header {
+      margin-bottom: 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .admin-logo {
+      color: white;
+      margin-bottom: 40px;
+    }
+    
+    .admin-logo span {
+      color: var(--primary-color);
+    }
+    
+    .admin-nav {
+      margin-top: 30px;
+    }
+    
+    .admin-nav-title {
+      text-transform: uppercase;
+      font-size: 0.8rem;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+      color: rgba(255, 255, 255, 0.6);
+    }
+    
+    .admin-nav ul {
+      list-style: none;
+    }
+    
+    .admin-nav ul li {
+      margin-bottom: 5px;
+    }
+    
+    .admin-nav ul li a {
+      color: rgba(255, 255, 255, 0.8);
+      display: block;
+      padding: 10px 15px;
+      border-radius: 5px;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+    }
+    
+    .admin-nav ul li a:before {
+      content: "•";
+      margin-right: 10px;
+    }
+    
+    .admin-nav ul li a:hover,
+    .admin-nav ul li a.active {
+      background-color: rgba(255, 255, 255, 0.1);
+      color: white;
+    }
+    
+    .admin-user {
+      margin-top: auto;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 20px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .admin-user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: var(--primary-color);
+      margin-right: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+    
+    .admin-user-details {
+      flex: 1;
+    }
+    
+    .admin-user-name {
+      font-weight: 500;
+      margin-bottom: 0;
+    }
+    
+    .admin-user-role {
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.7);
+    }
+    
+    .dashboard-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+    
+    .stat-card {
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: var(--shadow);
+    }
+    
+    .stat-value {
+      font-size: 2rem;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    
+    .stat-label {
+      color: var(--gray-color);
+      font-size: 0.9rem;
+    }
+    
+    .stat-percentage {
+      color: var(--success-color);
+      font-size: 0.85rem;
+      margin-top: 5px;
+    }
+    
+    .tab-container {
+      margin-bottom: 20px;
+    }
+    
+    .tab-buttons {
+      display: flex;
+      border-bottom: 1px solid var(--light-gray);
+    }
+    
+    .tab-button {
+      padding: 10px 20px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      margin-right: 10px;
+      font-weight: 500;
+      position: relative;
+    }
+    
+    .tab-button.active {
+      color: var(--secondary-color);
+    }
+    
+    .tab-button.active:after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background-color: var(--secondary-color);
+    }
+    
+    .tab-content {
+      display: none;
+      padding: 20px 0;
+    }
+    
+    .tab-content.active {
+      display: block;
+    }
+    
+    .admin-welcome {
+      margin-bottom: 30px;
+    }
+    
+    .admin-filters {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    
+    .admin-filters .form-group {
+      margin-bottom: 0;
+      min-width: 200px;
+    }
+    
+    .pagination {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+    
+    .page-link {
+      padding: 5px 10px;
+      margin: 0 5px;
+      border: 1px solid var(--light-gray);
+      border-radius: 3px;
+    }
+    
+    .page-link.active {
+      background-color: var(--secondary-color);
+      color: white;
+      border-color: var(--secondary-color);
+    }
+    
+    .car-grid, .testimonials-grid, .locations-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 30px;
+      margin-bottom: 40px;
+    }
+    
+    .car-card {
+      background-color: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: transform 0.3s ease;
+    }
+    
+    .car-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .car-image {
+      position: relative;
+      height: 180px;
+      overflow: hidden;
+    }
+    
+    .car-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+    
+    .car-card:hover .car-image img {
+      transform: scale(1.05);
+    }
+    
+    .status {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+    }
+    
+    .price {
+      position: absolute;
+      bottom: 15px;
+      right: 15px;
+      background-color: var(--primary-color);
+      color: white;
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-weight: 500;
+    }
+    
+    .car-details {
+      padding: 20px;
+    }
+    
+    .car-details h3 {
+      margin-bottom: 10px;
+    }
+    
+    .car-details p {
+      color: var(--gray-color);
+      margin-bottom: 10px;
+    }
+    
+    .car-features {
+      display: flex;
+      flex-wrap: wrap;
+      margin-bottom: 15px;
+    }
+    
+    .car-features span {
+      background-color: var(--light-color);
+      padding: 5px 10px;
+      margin-right: 5px;
+      margin-bottom: 5px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+    }
+    
+    .view-all-container {
+      text-align: center;
+      margin-top: 20px;
+    }
+    
+    .testimonial-card {
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: var(--shadow);
+    }
+    
+    .testimonial-content {
+      margin-bottom: 15px;
+    }
+    
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+    }
+    
+    .testimonial-author img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+    
+    .testimonial-author h4 {
+      margin-bottom: 5px;
+    }
+    
+    .testimonial-author p {
+      color: var(--gray-color);
+      font-size: 0.9rem;
+      margin: 0;
+    }
+    
+    .location-card {
+      background-color: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+    
+    .location-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+    
+    .location-card h3 {
+      padding: 15px 20px 5px;
+      margin-bottom: 5px;
+    }
+    
+    .location-card p {
+      padding: 0 20px;
+      margin-bottom: 5px;
+      color: var(--gray-color);
+    }
+    
+    .location-card p:last-child {
+      padding-bottom: 20px;
+    }
+    
+    .about-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: center;
+    }
+    
+    .about-image img {
+      width: 100%;
+      border-radius: 10px;
+    }
+    
+    .about-text h2 {
+      color: var(--secondary-color);
+    }
+    
+    .about-text ul {
+      margin-left: 20px;
+      margin-bottom: 20px;
+    }
+    
+    .about-text li {
+      margin-bottom: 5px;
+    }
+    
+    .contact-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+    }
+    
+    .contact-form {
+      background-color: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: var(--shadow);
+    }
+    
+    .contact-info {
+      background-color: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: var(--shadow);
+    }
+    
+    .info-item {
+      margin-bottom: 15px;
+    }
+    
+    .info-label {
+      font-weight: 500;
+      display: block;
+    }
+    
+    .info-value {
+      color: var(--gray-color);
+    }
+    
+    .social-links {
+      margin-top: 20px;
+      display: flex;
+      gap: 10px;
+    }
+    
+    .social-link {
+      display: inline-block;
+      padding: 5px 15px;
+      background-color: var(--light-color);
+      border-radius: 20px;
+      font-size: 0.9rem;
+      transition: background-color 0.3s ease;
+    }
+    
+    .social-link:hover {
+      background-color: var(--primary-color);
+      color: white;
+    }
+    
+    .newsletter-form {
+      display: flex;
+      margin-top: 10px;
+    }
+    
+    .newsletter-form input {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid var(--light-gray);
+      border-radius: 5px 0 0 5px;
+    }
+    
+    .newsletter-form button {
+      border-radius: 0 5px 5px 0;
+    }
+    
+    /* Responsive styles for admin page */
+    @media (max-width: 992px) {
+      .admin-sidebar {
+        width: 200px;
+      }
+      .admin-content {
+        margin-left: 200px;
+      }
+      .about-content {
+        grid-template-columns: 1fr;
+      }
+      .contact-container {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .admin-container {
+        flex-direction: column;
+      }
+      .admin-sidebar {
+        width: 100%;
+        position: relative;
+        height: auto;
+        padding: 10px 15px;
+      }
+      .admin-content {
+        margin-left: 0;
+      }
+      .admin-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+      }
+      .admin-filters {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .admin-logo {
+        margin-bottom: 15px;
+      }
+      .admin-nav {
+        display: none;
+      }
+      .admin-nav.active {
+        display: block;
+      }
+      .admin-toggle {
+        display: block;
+      }
+      .admin-user {
+        margin-top: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="admin-container">
+    <!-- Admin Sidebar -->
+    <div class="admin-sidebar">
+      <div class="admin-logo">
+        <h2>Safari<span>Wheels</span></h2>
+        <p>Admin Dashboard</p>
+      </div>
+      
+      <div class="admin-nav">
+        <p class="admin-nav-title">Management</p>
+        <ul>
+          <li><a href="#" class="active" onclick="showTab('dashboard')">Dashboard</a></li>
+          <li><a href="#" onclick="showTab('car-management')">Car Management</a></li>
+          <li><a href="#" onclick="showTab('booking-management')">Booking Management</a></li>
+          <li><a href="#" onclick="showTab('customer-management')">Customer Management</a></li>
+          <li><a href="#" onclick="showTab('user-management')">System User Management</a></li>
+        </ul>
+        
+        <p class="admin-nav-title">Settings</p>
+        <ul>
+          <li><a href="#">Company Profile</a></li>
+          <li><a href="#">System Settings</a></li>
+          <li><a href="#">Payment Methods</a></li>
+          <li><a href="#">Reports</a></li>
+        </ul>
+      </div>
+      
+      <div class="admin-user">
+        <div class="admin-user-avatar">S</div>
+        <div class="admin-user-details">
+          <p class="admin-user-name">Sipho Mokoena</p>
+          <p class="admin-user-role">Administrator</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Admin Content -->
+    <div class="admin-content">
+      <div class="admin-header">
+        <h2>Welcome Back, Sipho!</h2>
+        <div class="auth-buttons">
+          <a href="index.html" class="btn btn-login">View Website</a>
+          <a href="#" class="btn btn-secondary">Logout</a>
+        </div>
+      </div>
+      
+      <div id="dashboard" class="tab-content active">
+        <div class="dashboard-stats">
+          <div class="stat-card">
+            <div class="stat-value">78</div>
+            <div class="stat-label">Total Vehicles</div>
+            <div class="stat-percentage">+5% from last month</div>
+          </div>
+          
+          <div class="stat-card">
+            <div class="stat-value">126</div>
+            <div class="stat-label">Active Bookings</div>
+            <div class="stat-percentage">+12% from last month</div>
+          </div>
+          
+          <div class="stat-card">
+            <div class="stat-value">834</div>
+            <div class="stat-label">Customers</div>
+            <div class="stat-percentage">+9% from last month</div>
+          </div>
+          
+          <div class="stat-card">
+            <div class="stat-value">R98,450</div>
+            <div class="stat-label">Revenue (This Month)</div>
+            <div class="stat-percentage">+15% from last month</div>
+          </div>
+        </div>
+        
+        <div class="admin-panel">
+          <h3>Recent Bookings</h3>
+          
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Booking ID</th>
+                  <th>Customer</th>
+                  <th>Vehicle</th>
+                  <th>Start Date</th>
+                  <th>End Date</th>
+                  <th>Status</th>
+                  <th>Amount</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>B001245</td>
+                  <td>John Smith</td>
+                  <td>Toyota Corolla</td>
+                  <td>2025-05-10</td>
+                  <td>2025-05-15</td>
+                  <td><span class="status active">Active</span></td>
+                  <td>R3,250</td>
+                  <td class="actions">
+                    <button class="btn-icon view">View</button>
+                    <button class="btn-icon edit">Edit</button>
+                    <button class="btn-icon delete">Delete</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>B001244</td>
+                  <td>Sarah Johnson</td>
+                  <td>Land Rover Defender</td>
+                  <td>2025-05-08</td>
+                  <td>2025-05-18</td>
+                  <td><span class="status active">Active</span></td>
+                  <td>R15,000</td>
+                  <td class="actions">
+                    <button class="btn-icon view">View</button>
+                    <button class="btn-icon edit">Edit</button>
+                    <button class="btn-icon delete">Delete</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>B001243</td>
+                  <td>David Mabaso</td>
+                  <td>VW Polo</td>
+                  <td>2025-05-05</td>
+                  <td>2025-05-08</td>
+                  <td><span class="status completed">Completed</span></td>
+                  <td>R1,650</td>
+                  <td class="actions">
+                    <button class="btn-icon view">View</button>
+                    <button class="btn-icon edit">Edit</button>
+                    <button class="btn-icon delete">Delete</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>B001242</td>
+                  <td>Emily Turner</td>
+                  <td>Mercedes-Benz C-Class</td>
+                  <td>2025-05-06</td>
+                  <td>2025-05-09</td>
+                  <td><span class="status active">Active</span></td>
+                  <td>R3,600</td>
+                  <td class="actions">
+                    <button class="btn-icon view">View</button>
+                    <button class="btn-icon edit">Edit</button>
+                    <button class="btn-icon delete">Delete</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>B001241</td>
+                  <td>Michael Ndlovu</td>
+                  <td>Toyota Fortuner</td>
+                  <td>2025-05-01</td>
+                  <td>2025-05-07</td>
+                  <td><span class="status completed">Completed</span></td>
+                  <td>R8,400</td>
+                  <td class="actions">
+                    <button class="btn-icon view">View</button>
+                    <button class="btn-icon edit">Edit</button>
+                    <button class="btn-icon delete">Delete</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      
+      <div id="car-management" class="tab-content">
+        <div class="module-actions">
+          <h3>Car Management</h3>
+          <div>
+            <button class="btn btn-primary" onclick="showModal('add-car-modal')">Add New Car</button>
+          </div>
+        </div>
+        
+        <div class="admin-filters">
+          <div class="search-box">
+            <input type="text" placeholder="Search cars...">
+            <button class="search-btn">Search</button>
+          </div>
+          
+          <div class="form-group">
+            <select>
+              <option value="">Filter by Type</option>
+              <option value="economy">Economy</option>
+              <option value="compact">Compact</option>
+              <option value="midsize">Mid-size</option>
+              <option value="suv">SUV</option>
+              <option value="luxury">Luxury</option>
+              <option value="4x4">4x4/Safari</option>
+              <option value="van">Minivan</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <select>
+              <option value="">Filter by Status</option>
+              <option value="available">Available</option>
+              <option value="rented">Rented</option>
+              <option value="maintenance">Maintenance</option>
+              <option value="inactive">Inactive</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="admin-panel">
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Car ID</th>
+                  <th>Car Image</th>
+                  <th>Make & Model</th>
+                  <th>Type</th>
+                  <th>Registration</th>
+                  <th>Daily Rate</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>CAR001</td>
+                  <td><img src="https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&q=80&w=100" alt="Toyota Corolla"></td>
+                  <td>Toyota Corolla</td>
+                  <td>Economy Sedan</td>
+                  <td>CA 123-456</td>
+                  <td>R650</td>
+                  <td><span class="status available">Available</span></td>
+                  <td class="actions">
+                    <button class="btn-icon view">View</button>
+                    <button class="btn-icon edit">Edit</button>
+                    <button class="btn-icon delete">Delete</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>CAR002</td>
+                  <td><img src="https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&q=80&w=100" alt="Volkswagen Polo"></td>
+                  <td>Volkswagen Polo</td>
+                  <td>Economy Hatch</td>
+                  <td>CA 789-012</td>
+                  <td>R550</td>
+                  <td><span class="status rented">Rented</span></td>
+                  <td class="actions">
+                    <button class="btn-icon view">View</button>
+                    <button class="btn-icon edit">Edit</button>
+                    <button class="btn-icon delete">Delete</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>CAR003</td>
+                  <td><img src="https://images.unsplash.com/photo-1511919884226-fd3cad34687c?auto=format&fit=crop&q=80&w=100" alt="Land Rover Defender"></td>
+                  <td>Land Rover Defender</td>
+                  <td>4x4/Safari</td>
+                  <td>CA 345-678</td>
+                  <td>R1,500</td>
+                  <td><span class="status available">Available</span></td>
+                  <td class="actions">
+                    <button class="btn-icon view">View</button>
+                    <button class="btn-icon edit">Edit</button>
+                    <button class="btn-icon delete">Delete</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>CAR004</td>
+                  <td><img src="https://images.unsplash.com/photo-1570733577524-3a047079e80d?auto=format&fit=crop&q=80&w=100" alt="Mercedes-Benz C-Class"></td>
+                  <td>Mercedes-Benz C-Class</td>
+                  <td>Luxury Sedan</td>
+                  <td>CA 901-234</td>
+                  <td>R1,200</td>
+                  <td><span class="status rented">Rented</span></td>
+                  <td class="actions">
+                    <button class="btn-icon view">View</button>
+                    <button class="btn-icon edit">Edit</button>
+                    <button class="btn-icon delete">Delete</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>CAR005</td>
+                  <td><img src="https://images.unsplash.com/photo-1549925862-990f5e6d2337?auto=format&fit=crop&q=80&w=100" alt="Toyota Fortuner"></td>
+                  <td>Toyota Fortuner</td>
+                  <td>SUV</td>
+                  <td>CA 567-890</td>
+                  <td>R1,200</td>
+                  <td><span class="status inactive">Maintenance</span></td>
+                  <td class="actions">
+                    <button class="btn-icon view">View</button>
+                    <button class="btn-icon edit">Edit</button>
+                    <button class="btn-icon delete">Delete</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          
+          <div class="pagination">
+            <a href="#" class="page-link active">1</a>
+            <a href="#" class="page-link">2</a>
+            <a href="#" class="page-link">3</a>
+            <a href="#" class="page-link">Next</a>
+          </div>
+        </div>
+      </div>
+      
+      <div id="booking-management" class="tab-content">
+        <div class="module-actions">
+          <h3>Booking Management</h3>
+          <div>
+            <button class="btn btn-primary" onclick="showModal('add-booking-modal')">Add New Booking</button>
+          </div>
+        </div>
+        
+        <div class="admin-filters">
+          <div class="search-box">
+            <input type="text" placeholder="Search bookings...">
+            <button class="search-btn">Search</button>
+          </div>
+          
+          <div class="form-group">
+            <select>
+              <option value="">Filter by Status</option>
+              <option value="pending">Pending</option>
+              <option value="active">Active</option>
+              <option value="completed">Completed</option>
+              <option value="cancelled">Cancelled</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <input type="date" placeholder="Filter by Date">
+          </div>
+        </div>
+        
+        <div class="admin-panel">
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Booking ID</th>
+                  <th>Customer</th>
+                  <th>Vehicle</th>
+                  <th>Start Date</th>
+                  <th>End Date</th>
+                  <th>Total Days</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>B001245</td>
+                  <td>John Smith</td>
+                  <td>Toyota Corolla</td>
+                  <td>2025-05-10</td>
+                  <td>2025-05-15</td>
+                  <td>5</td>
+                  <td>R3,250</td>
+                  <td><span class="status active">Active</span></td>
+                  <td class="actions">
+                    <button class="btn-icon view">View</button>
+                    <button class="btn-icon edit">Edit</button>
+                    <button class="btn-icon delete">Delete</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>B001244</td>
+                  <td>Sarah Johnson</td>
+                  <td>Land Rover Defender</td>
+                  <td>2025-05-08</td>
+                  <td>2025-05-18</td>
+                  <td>10</td>
+                  <td>R15,000</td>
+                  <td><span class="status active">Active</span></td>
+                  <td class="actions">
+                    <button class="btn-icon view">View</button>
+                    <button class="btn-icon edit">Edit</button>
+                    <button class="btn-icon delete">Delete</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>B001243</td>
+                  <td>David Mabaso</td>
+                  <td>VW Polo</td>
+                  <td>2025-05-05</td>
+                  <td>2025-05-08</td>
+                  <td>3</td>
+                  <td>R1,650</td>
+                  <td><span class="status completed">Completed</span></td>
+                  <td class="actions">
+                    <button class="btn-icon view">View</button>
+                    <button class="btn-icon edit">Edit</button>
+                    <button class="btn-icon delete">Delete</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>B001242</td>
+                  <td>Emily Turner</td>
+                  <td>Mercedes-Benz C-Class</td>
+                  <td>2025-05-06</td>
+                  <td>2025-05-09</td>
+                  <td>3</td>
+                  <td>R3,600</td>
+                  <td><span class="status active">Active</span></td>
+                  <td class="actions">
+                    <button class="btn-icon view">View</button>
+                    <button class="btn-icon edit">Edit</button>
+                    <button class="btn-icon delete">Delete</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>B001241</td>
+                  <td>Michael Ndlovu</td>
+                  <td>Toyota Fortuner</td>
+                  <td>2025-05-01</td>
+                  <td>2025-05-07</td>
+                  <td>6</td>
+                  <td>R8,400</td>
+                  <td><span class="status completed">Completed</span></td>
+                  <td class="actions">
+                    <button class="btn-icon view">View</button>
+                    <button class="btn-icon edit">Edit</button>
+                    <button class="btn-icon delete">Delete</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          
+          <div class="pagination">
+            <a href="#" class="page-link active">1</a>
+            <a href="#" class="page-link">2</a>
+            <a href="#" class="page-link">3</a>
+            <a href="#" class="page-link">Next</a>
+          </div>
+        </div>
+      </div>
+      
+      <div id="customer-management" class="tab-content">
+        <div class="module-actions">
+          <h3>Customer Management</h3>
+          <div>
+            <button class="btn btn-primary" onclick="showModal('add-customer-modal')">Add New Customer</button>
+          </div>
+        </div>
+        
+        <div class="admin-filters">
+          <div class="search-box">
+            <input type="text" placeholder="Search customers...">
+            <button class="search-btn">Search</button>
+          </div>
+          
+          <div class="form-group">
+            <select>
+              <option value="">Filter by Status</option>
+              <option value="active">Active</option>
+              <option value="inactive">Inactive</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="admin-panel">
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Customer ID</th>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>Driver License #</th>
+                  <th>Registration Date</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>C00123</td>
+                  <td>John Smith</td>
+                  <td>john.smith@email.com</td>
+                  <td>+27 82 123 4567</td>
+                  <td>DL12345678</td>
+                  <td>2025-01-15</td>
+                  <td><span class="status active">Active</span></td>
+                  <td class="actions">
+                    <button class="btn-icon view">View</button>
+                    <button class="btn-icon edit">Edit</button>
+                    <button class="btn-icon delete">Delete</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>C00124</td>
+                  <td>Sarah Johnson</td>
+                  <td>sarah.j@email.com</td>
+                  <td>+44 20 1234 5678</td>
+                  <td>UK78901234</td>
+                  <td>2025-02-28</td>
+                  <td><span class="status active">Active</span></td>
+                  <td class="actions">
+                    <button class="btn-icon view">View</button>
+                    <button class="btn-icon edit">Edit</button>
+                    <button class="btn-icon delete">Delete</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>C00125</td>
+                  <td>David Mabaso</td>
+                  <td>dmabaso@email.com</td>
+                  <td>+27 71 234 5678</td>
+                  <td>DL45678912</td>
+                  <td>2025-03-10</td>
+                  <td><span class="status active">Active</span></td>
+                  <td class="actions">
+                    <button class="btn-icon view">View</button>
+                    <button class="btn-icon edit">Edit</button>
+                    <button class="btn-icon delete">Delete</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>C00126</td>
+                  <td>Emily Turner</td>
+                  <td>e.turner@email.com</td>
+                  <td>+1 202 555 0123</td>
+                  <td>US98765432</td>
+                  <td>2025-03-15</td>
+                  <td><span class="status active">Active</span></td>
+                  <td class="actions">
+                    <button class="btn-icon view">View</button>
+                    <button class="btn-icon edit">Edit</button>
+                    <button class="btn-icon delete">Delete</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>C00127</td>
+                  <td>Michael Ndlovu</td>
+                  <td>mndlovu@email.com</td>
+                  <td>+27 82 567 8901</td>
+                  <td>DL87654321</td>
+                  <td>2025-04-02</td>
+                  <td><span class="status inactive">Inactive</span></td>
+                  <td class="actions">
+                    <button class="btn-icon view">View</button>
+                    <button class="btn-icon edit">Edit</button>
+                    <button class="btn-icon delete">Delete</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          
+          <div class="pagination">
+            <a href="#" class="page-link active">1</a>
+            <a href="#" class="page-link">2</a>
+            <a href="#" class="page-link">3</a>
+            <a href="#" class="page-link">Next</a>
+          </div>
+        </div>
+      </div>
+      
+      <div id="user-management" class="tab-content">
+        <div class="module-actions">
+          <h3>System User Management</h3>
+          <div>
+            <button class="btn btn-primary" onclick="showModal('add-user-modal')">Add New User</button>
+          </div>
+        </div>
+        
+        <div class="admin-filters">
+          <div class="search-box">
+            <input type="text" placeholder="Search users...">
+            <button class="search-btn">Search</button>
+          </div>
+          
+          <div class="form-group">
+            <select>
+              <option value="">Filter by Role</option>
+              <option value="admin">Administrator</option>
+              <option value="manager">Manager</option>
+              <option value="staff">Staff</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <select>
+              <option value="">Filter by Status</option>
+              <option value="active">Active</option>
+              <option value="inactive">Inactive</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="admin-panel">
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>User ID</th>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Role</th>
+                  <th>Last Login</th>
+                  <th>Created Date</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>U001</td>
+                  <td>Sipho Mokoena</td>
+                  <td>sipho@safariwheels.co.za</td>
+                  <td>Administrator</td>
+                  <td>2025-05-06 09:15</td>
+                  <td>2024-01-10</td>
+                  <td><span class="status active">Active</span></td>
+                  <td class="actions">
+                    <button class="btn-icon view">View</button>
+                    <button class="btn-icon edit">Edit</button>
+                    <button class="btn-icon delete">Delete</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>U002</td>
+                  <td>Thandi Nkosi</td>
+                  <td>thandi@safariwheels.co.za</td>
+                  <td>Manager</td>
+                  <td>2025-05-05 14:22</td>
+                  <td>2024-02-15</td>
+                  <td><span class="status active">Active</span></td>
+                  <td class="actions">
+                    <button class="btn-icon view">View</button>
+                    <button class="btn-icon edit">Edit</button>
+                    <button class="btn-icon delete">Delete</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>U003</td>
+                  <td>Peter Molefe</td>
+                  <td>peter@safariwheels.co.za</td>
+                  <td>Staff</td>
+                  <td>2025-05-06 08:30</td>
+                  <td>2024-03-22</td>
+                  <td><span class="status active">Active</span></td>
+                  <td class="actions">
+                    <button class="btn-icon view">View</button>
+                    <button class="btn-icon edit">Edit</button>
+                    <button class="btn-icon delete">Delete</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>U004</td>
+                  <td>Lisa van Wyk</td>
+                  <td>lisa@safariwheels.co.za</td>
+                  <td>Staff</td>
+                  <td>2025-05-04 16:10</td>
+                  <td>2024-04-05</td>
+                  <td><span class="status active">Active</span></td>
+                  <td class="actions">
+                    <button class="btn-icon view">View</button>
+                    <button class="btn-icon edit">Edit</button>
+                    <button class="btn-icon delete">Delete</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>U005</td>
+                  <td>James Sithole</td>
+                  <td>james@safariwheels.co.za</td>
+                  <td>Manager</td>
+                  <td>2025-04-28 11:45</td>
+                  <td>2024-02-20</td>
+                  <td><span class="status inactive">Inactive</span></td>
+                  <td class="actions">
+                    <button class="btn-icon view">View</button>
+                    <button class="btn-icon edit">Edit</button>
+                    <button class="btn-icon delete">Delete</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          
+          <div class="pagination">
+            <a href="#" class="page-link active">1</a>
+            <a href="#" class="page-link">2</a>
+            <a href="#" class="page-link">Next</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Add Car Modal -->
+  <div id="add-car-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="hideModal('add-car-modal')">&times;</span>
+      <h3>Add New Car</h3>
+      <form class="admin-form">
+        <div class="form-group">
+          <label for="car-make">Make</label>
+          <input type="text" id="car-make" name="make" placeholder="e.g., Toyota">
+        </div>
+        <div class="form-group">
+          <label for="car-model">Model</label>
+          <input type="text" id="car-model" name="model" placeholder="e.g., Corolla">
+        </div>
+        <div class="form-group">
+          <label for="car-year">Year</label>
+          <input type="number" id="car-year" name="year" placeholder="e.g., 2024">
+        </div>
+        <div class="form-group">
+          <label for="car-type">Type</label>
+          <select id="car-type" name="type">
+            <option value="">Select Type</option>
+            <option value="economy">Economy</option>
+            <option value="compact">Compact</option>
+            <option value="midsize">Mid-size</option>
+            <option value="suv">SUV</option>
+            <option value="luxury">Luxury</option>
+            <option value="4x4">4x4/Safari</option>
+            <option value="van">Minivan</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="car-registration">Registration Number</label>
+          <input type="text" id="car-registration" name="registration" placeholder="e.g., CA 123-456">
+        </div>
+        <div class="form-group">
+          <label for="car-rate">Daily Rate (ZAR)</label>
+          <input type="number" id="car-rate" name="rate" placeholder="e.g., 650">
+        </div>
+        <div class="form-group">
+          <label for="car-seats">Number of Seats</label>
+          <input type="number" id="car-seats" name="seats" placeholder="e.g., 5">
+        </div>
+        <div class="form-group">
+          <label for="car-transmission">Transmission</label>
+          <select id="car-transmission" name="transmission">
+            <option value="">Select Transmission</option>
+            <option value="manual">Manual</option>
+            <option value="automatic">Automatic</option>
+          </select>
+        </div>
+        <div class="form-group full-width">
+          <label for="car-features">Features (comma separated)</label>
+          <input type="text" id="car-features" name="features" placeholder="e.g., Air Conditioning, Bluetooth, USB Port">
+        </div>
+        <div class="form-group full-width">
+          <label for="car-image">Car Image</label>
+          <input type="file" id="car-image" name="image">
+        </div>
+        
+        <div class="form-actions">
+          <button type="button" class="btn btn-login" onclick="hideModal('add-car-modal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Car</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  
+  <!-- Add Booking Modal -->
+  <div id="add-booking-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="hideModal('add-booking-modal')">&times;</span>
+      <h3>Add New Booking</h3>
+      <form class="admin-form">
+        <div class="form-group">
+          <label for="booking-customer">Customer</label>
+          <select id="booking-customer" name="customer">
+            <option value="">Select Customer</option>
+            <option value="C00123">C00123 - John Smith</option>
+            <option value="C00124">C00124 - Sarah Johnson</option>
+            <option value="C00125">C00125 - David Mabaso</option>
+            <option value="C00126">C00126 - Emily Turner</option>
+            <option value="C00127">C00127 - Michael Ndlovu</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="booking-car">Vehicle</label>
+          <select id="booking-car" name="car">
+            <option value="">Select Vehicle</option>
+            <option value="CAR001">CAR001 - Toyota Corolla</option>
+            <option value="CAR002">CAR002 - Volkswagen Polo</option>
+            <option value="CAR003">CAR003 - Land Rover Defender</option>
+            <option value="CAR004">CAR004 - Mercedes-Benz C-Class</option>
+            <option value="CAR005">CAR005 - Toyota Fortuner</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="booking-start-date">Start Date</label>
+          <input type="date" id="booking-start-date" name="start-date">
+        </div>
+        <div class="form-group">
+          <label for="booking-end-date">End Date</label>
+          <input type="date" id="booking-end-date" name="end-date">
+        </div>
+        <div class="form-group">
+          <label for="booking-pickup">Pickup Location</label>
+          <select id="booking-pickup" name="pickup-location">
+            <option value="">Select Location</option>
+            <option value="johannesburg">Johannesburg - O.R. Tambo Airport</option>
+            <option value="capetown">Cape Town International Airport</option>
+            <option value="durban">Durban - King Shaka Airport</option>
+            <option value="pretoria">Pretoria CBD</option>
+            <option value="nelspruit">Nelspruit - Kruger Mpumalanga</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="booking-dropoff">Drop-off Location</label>
+          <select id="booking-dropoff" name="dropoff-location">
+            <option value="">Select Location</option>
+            <option value="johannesburg">Johannesburg - O.R. Tambo Airport</option>
+            <option value="capetown">Cape Town International Airport</option>
+            <option value="durban">Durban - King Shaka Airport</option>
+            <option value="pretoria">Pretoria CBD</option>
+            <option value="nelspruit">Nelspruit - Kruger Mpumalanga</option>
+          </select>
+        </div>
+        <div class="form-group full-width">
+          <label for="booking-notes">Special Requests/Notes</label>
+          <textarea id="booking-notes" name="notes" rows="3"></textarea>
+        </div>
+        
+        <div class="form-actions">
+          <button type="button" class="btn btn-login" onclick="hideModal('add-booking-modal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Booking</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  
+  <!-- Add Customer Modal -->
+  <div id="add-customer-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="hideModal('add-customer-modal')">&times;</span>
+      <h3>Add New Customer</h3>
+      <form class="admin-form">
+        <div class="form-group">
+          <label for="customer-firstname">First Name</label>
+          <input type="text" id="customer-firstname" name="firstname">
+        </div>
+        <div class="form-group">
+          <label for="customer-lastname">Last Name</label>
+          <input type="text" id="customer-lastname" name="lastname">
+        </div>
+        <div class="form-group">
+          <label for="customer-email">Email Address</label>
+          <input type="email" id="customer-email" name="email">
+        </div>
+        <div class="form-group">
+          <label for="customer-phone">Phone Number</label>
+          <input type="tel" id="customer-phone" name="phone">
+        </div>
+        <div class="form-group">
+          <label for="customer-license">Driver's License Number</label>
+          <input type="text" id="customer-license" name="license">
+        </div>
+        <div class="form-group">
+          <label for="customer-license-country">License Issuing Country</label>
+          <input type="text" id="customer-license-country" name="license-country">
+        </div>
+        <div class="form-group">
+          <label for="customer-passport">Passport Number (for international customers)</label>
+          <input type="text" id="customer-passport" name="passport">
+        </div>
+        <div class="form-group">
+          <label for="customer-nationality">Nationality</label>
+          <input type="text" id="customer-nationality" name="nationality">
+        </div>
+        <div class="form-group full-width">
+          <label for="customer-address">Address</label>
+          <textarea id="customer-address" name="address" rows="3"></textarea>
+        </div>
+        <div class="form-group full-width">
+          <label>Status</label>
+          <div>
+            <label class="checkbox-container">
+              Active
+              <input type="checkbox" name="status" checked>
+              <span class="checkmark"></span>
+            </label>
+          </div>
+        </div>
+        
+        <div class="form-actions">
+          <button type="button" class="btn btn-login" onclick="hideModal('add-customer-modal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Customer</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  
+  <!-- Add User Modal -->
+  <div id="add-user-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="hideModal('add-user-modal')">&times;</span>
+      <h3>Add New System User</h3>
+      <form class="admin-form">
+        <div class="form-group">
+          <label for="user-firstname">First Name</label>
+          <input type="text" id="user-firstname" name="firstname">
+        </div>
+        <div class="form-group">
+          <label for="user-lastname">Last Name</label>
+          <input type="text" id="user-lastname" name="lastname">
+        </div>
+        <div class="form-group">
+          <label for="user-email">Email Address</label>
+          <input type="email" id="user-email" name="email">
+        </div>
+        <div class="form-group">
+          <label for="user-phone">Phone Number</label>
+          <input type="tel" id="user-phone" name="phone">
+        </div>
+        <div class="form-group">
+          <label for="user-role">Role</label>
+          <select id="user-role" name="role">
+            <option value="">Select Role</option>
+            <option value="admin">Administrator</option>
+            <option value="manager">Manager</option>
+            <option value="staff">Staff</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="user-password">Password</label>
+          <input type="password" id="user-password" name="password">
+        </div>
+        <div class="form-group">
+          <label for="user-confirm-password">Confirm Password</label>
+          <input type="password" id="user-confirm-password" name="confirm-password">
+        </div>
+        <div class="form-group full-width">
+          <label>Status</label>
+          <div>
+            <label class="checkbox-container">
+              Active
+              <input type="checkbox" name="status" checked>
+              <span class="checkmark"></span>
+            </label>
+          </div>
+        </div>
+        
+        <div class="form-actions">
+          <button type="button" class="btn btn-login" onclick="hideModal('add-user-modal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save User</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  
+  <script>
+    // Tab functionality
+    function showTab(tabId) {
+      // Hide all tab contents
+      const tabContents = document.querySelectorAll('.tab-content');
+      tabContents.forEach(tab => {
+        tab.classList.remove('active');
+      });
+      
+      // Show the selected tab content
+      document.getElementById(tabId).classList.add('active');
+      
+      // Update active class on navigation links
+      const navLinks = document.querySelectorAll('.admin-nav a');
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('onclick').includes(tabId)) {
+          link.classList.add('active');
+        }
+      });
+    }
+    
+    // Modal functionality
+    function showModal(modalId) {
+      document.getElementById(modalId).classList.add('show');
+    }
+    
+    function hideModal(modalId) {
+      document.getElementById(modalId).classList.remove('show');
+    }
+    
+    // Close modal when clicking outside of it
+    window.onclick = function(event) {
+      const modals = document.querySelectorAll('.modal');
+      modals.forEach(modal => {
+        if (event.target === modal) {
+          modal.classList.remove('show');
+        }
+      });
+    }
+  </script>
+</body>
+</html>
